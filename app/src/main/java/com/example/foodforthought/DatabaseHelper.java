@@ -1,5 +1,6 @@
 package com.example.foodforthought;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -116,5 +117,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // create new tables
         onCreate(db);
+    }
+
+
+
+    // ------------------ RECIPE methods ------------------ //
+
+    // Add a new recipe
+    public long addRecipe(Recipe recipe) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // insert Name, Description, CookTime into RECIPE table
+        ContentValues row = new ContentValues();
+        row.put(KEY_NAME, recipe.getName());
+        row.put(KEY_RECIPE_DESCRIPTION, recipe.getDescription());
+        row.put(KEY_RECIPE_COOK_TIME, recipe.getCookTime());
+        long recipeID = db.insert(TABLE_RECIPE, null, row);
+        row.clear();
+
+        // insert recipe-tag pairs
+        Tag[] recipeTags = recipe.getTags();
+        for (int i = 0; i < recipeTags.length; i++) {
+            addRecipeTagPair(recipeID, recipeTags[i].getID());
+        }
+
+        // insert recipe-ingredient pairs
+        RecipeIngredient[] recipeIngredients = recipe.getRecipeIngredients();
+        for (int i = 0; i < recipeIngredients.length; i++) {
+            addRecipeIngredientPair(recipeID, recipeIngredients[i].getIngredientID(), recipeIngredients[i].getAmount(), recipeIngredients[i].getPreparation());
+        }
+        
+        // insert steps
+        Step[] steps = recipe.getSteps();
+        for (int i = 0; i < steps.length; i++) {
+            addStep(steps[i].getID(), steps[i].getOrder(), steps[i].getDescription(), recipeID);
+        }
+
+        return recipeID;
+    }
+
+
+    // ------------------ TAG methods ------------------------ //
+
+
+    
+    // ------------------ STEP methods ----------------------- //
+    // Add a step
+    public void addStep(int stepID, int order, String description, long recipeID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues row = new ContentValues();
+        row.put(KEY_ID, stepID);
+        row.put(KEY_STEP_ORDER, order);
+        row.put(KEY_STEP_DESCRIPTION, description);
+        row.put(KEY_RECIPE_ID, recipeID);
+        db.insert(TABLE_STEP, null, row);
+    }
+
+
+    // ------------------ RECIPE-TAG methods ----------------- //
+    // Add a RECIPE-TAG pair
+    public void addRecipeTagPair(long recipeID, int tagID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues row = new ContentValues();
+        row.put(KEY_RECIPE_ID, recipeID);
+        row.put(KEY_TAG_ID, tagID);
+        db.insert(TABLE_RECIPE_TAG, null, row);
+    }
+
+
+    // ------------------- RECIPE-INGREDIENT methods ------------- //
+    // Add a RECIPE-INGREDIENT pair
+    public void addRecipeIngredientPair(long recipeID, int ingredientID, int amount, String preparation) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues row = new ContentValues();
+        row.put(KEY_RECIPE_ID, recipeID);
+        row.put(KEY_INGREDIENT_ID, ingredientID);
+        row.put(KEY_AMOUNT, amount);
+        row.put(KEY_PREPARATION, preparation);
+        db.insert(TABLE_RECIPE_INGREDIENT, null, row);
     }
 }
