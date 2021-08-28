@@ -134,23 +134,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long recipeID = db.insert(TABLE_RECIPE, null, row);
         row.clear();
 
-        // insert recipe-tag pairs
-        Tag[] recipeTags = recipe.getTags();
-        for (int i = 0; i < recipeTags.length; i++) {
-            addRecipeTagPair(recipeID, recipeTags[i].getID());
-        }
-
-        // insert recipe-ingredient pairs
-        RecipeIngredient[] recipeIngredients = recipe.getRecipeIngredients();
-        for (int i = 0; i < recipeIngredients.length; i++) {
-            addRecipeIngredientPair(recipeID, recipeIngredients[i].getIngredientID(), recipeIngredients[i].getAmount(), recipeIngredients[i].getPreparation());
-        }
-        
-        // insert steps
-        Step[] steps = recipe.getSteps();
-        for (int i = 0; i < steps.length; i++) {
-            addStep(steps[i].getID(), steps[i].getOrder(), steps[i].getDescription(), recipeID);
-        }
+//        // insert recipe-tag pairs
+//        Tag[] recipeTags = recipe.getTags();
+//        for (int i = 0; i < recipeTags.length; i++) {
+//            addRecipeTagPair(recipeID, recipeTags[i].getID());
+//        }
+//
+//        // insert recipe-ingredient pairs
+//        RecipeIngredient[] recipeIngredients = recipe.getRecipeIngredients();
+//        for (int i = 0; i < recipeIngredients.length; i++) {
+//            addRecipeIngredientPair(recipeID, recipeIngredients[i].getIngredientID(), recipeIngredients[i].getAmount(), recipeIngredients[i].getPreparation());
+//        }
+//
+//        // insert steps
+//        Step[] steps = recipe.getSteps();
+//        for (int i = 0; i < steps.length; i++) {
+//            addStep(steps[i].getID(), steps[i].getOrder(), steps[i].getDescription(), recipeID);
+//        }
 
         return recipeID;
     }
