@@ -14,7 +14,14 @@
     <string name="no_recipes_text_1">You don\'t have any recipes yet</string>
     <string name="no_recipes_text_2">Press the button to add one</string>
     <string name="a_plus_sign">A plus sign</string>
-    
+    <string name="cook_time">Cook Time</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="method">Method</string>
+    <string name="add_step">Add Step</string>
+    <string name="description">Description</string>
+
     // cook time spinner values
     <string-array name="cookTimeSpinner">
         <item>Short</item>
